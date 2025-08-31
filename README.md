@@ -80,6 +80,44 @@ runs-on: self-hosted
 runs-on: [self-hosted, linux, x64]  # with specific labels
 ```
 
+### Current Workflow Configuration
+
+This repository includes a workflow (`.github/workflows/task.yml`) that demonstrates the self-hosted runner configuration:
+
+```yaml
+name: Task1
+
+on:
+  push:
+    branches:
+        - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: [self-hosted, wsl, ubuntu]
+    container: python:3.11
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: show files
+        run: |
+          echo "Hello, CI with GitHub Actions!."
+```
+
+**Key Configuration Details:**
+- **Runner Labels**: `[self-hosted, wsl, ubuntu]` - This workflow targets a self-hosted runner with WSL and Ubuntu labels
+- **Container**: Uses Python 3.11 container for isolated execution
+- **Triggers**: Runs on pushes to main branch and manual workflow dispatch
+- **Steps**: Checks out code and displays a greeting message
+
+**Runner Setup Requirements:**
+To run this workflow, the self-hosted runner must be configured with:
+- `self-hosted` label (default)
+- `wsl` label (indicating Windows Subsystem for Linux)
+- `ubuntu` label (indicating Ubuntu environment)
+- Docker support for container execution
+
 ## Maintenance
 
 - **Updates**: Regularly update the runner application
